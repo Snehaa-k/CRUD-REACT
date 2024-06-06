@@ -1,17 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+import Userlogin from './pages/Userside/Userlogin'
+import Usersignup from './pages/Userside/Usersignup'
 import './App.css'
+import Profile from './components/Userside/Userprofile/Profile'
+import Userhome from './pages/Userside/Userhome'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  
 
   return (
     <>
+      <Router>
+      <Routes>
+        <Route path='/' element={<Userlogin />} />
+        <Route path='/signup' element={<Usersignup />} />
+        <Route path='/home' element={<Userhome/>}/>
+
+        {/* <Route path='/profile' element={<Profile />} /> */}
+
+      </Routes>
+    </Router>
       
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
