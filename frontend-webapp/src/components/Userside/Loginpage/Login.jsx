@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -19,7 +22,7 @@ const Login = () => {
         <input type="password" className="form-control" value={password} onChange={(e)=>{setPassword(e.target.value)}} id="exampleInputPassword1" placeholder='Enter Your password'  v-model="password" required/>
       </div>
       <button type="submit" className="btn btn-outline-warning">LOGIN</button>
-      <button type="submit" className="btn btn-outline-warning m-4">Sign Up</button>
+      <button type="submit" className="btn btn-outline-warning m-4" onClick={()=>navigate('/signup')}>Sign Up</button>
     </form>
   </div>
   
