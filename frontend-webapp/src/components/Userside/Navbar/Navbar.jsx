@@ -1,6 +1,22 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../actions/authActions';
+import {  useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+   
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handlelogout = async (e) =>{
+    e.preventDefault();
+    const response = dispatch(logout())
+    if (response){
+      navigate('/')
+
+    }
+
+  }
+
   return (
     <div>
         <nav class="navbar navbar-expand-lg bg-dark">
@@ -18,13 +34,14 @@ const Navbar = () => {
         
         
       </ul>
+      
   <div class="container-fluid">
-    
+         <div className="d-flex justify-content-end">
+            <button onClick={handlelogout}  className='btn btn-danger mx-3'>Logout</button>
+            <button onClick={()=>navigate('/profile')} class="btn btn-outline-success" type="submit">Profile</button>
+        </div>
    
       
-      <form class="d-flex" role="search">
-        <button class="btn btn-outline-success" type="submit">Profile</button>
-      </form>
     
   </div>
 

@@ -9,7 +9,13 @@ class Usermodelss(AbstractUser):
     password2=models.IntegerField(null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    groups = models.ManyToManyField(Group, related_name='custom_user_groups',null=True)
-    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions',null=True)
+    groups = models.ManyToManyField(Group, related_name='custom_user_groups')
+    user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions')
     def __str__(self):
         return self.username
+    
+
+class Userprofile(models.Model):
+    user = models.ForeignKey(Usermodelss,on_delete=models.CASCADE)
+    profile_image = models.ImageField(upload_to='media', blank=True, null=True)
+    

@@ -9,7 +9,7 @@ import axios from 'axios';
 const Signup = ({register}) => {
  const [username, setusername] = useState('');
  const [email, setemail] = useState('');
- const [password1, setpassword1] = useState('');
+ const [password, setpassword] = useState('');
  const [password2, setpassword2] = useState('');
  const navigate = useNavigate()
  const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const Signup = ({register}) => {
   e.preventDefault();
   
   try{
-    const res = await axios.post('http://127.0.0.1:8000/signup/',{username,email,password1,password2});
+    const res = await axios.post('http://127.0.0.1:8000/signup/',{username,email,password,password2});
     console.log(res.data);
     if(res.data.message = "User created successfully"){
       alert('you registered succefully')
@@ -54,7 +54,7 @@ const Signup = ({register}) => {
         <input type="email"  value={email} onChange={(e)=>{setemail(e.target.value)}} class="form-control"  placeholder= 'Enter Your Email' id="exampleInputtext" v-model="email" required/><br/>
       </div>
       <div className="mb-3">
-        <input type="password" value={password1} onChange={(e)=>{setpassword1(e.target.value)}} className="form-control" id="exampleInputPassword1" placeholder='Enter Your password'  v-model="password1" required/><br/>
+        <input type="password" value={password} onChange={(e)=>{setpassword(e.target.value)}} className="form-control" id="exampleInputPassword1" placeholder='Enter Your password'  v-model="password1" required/><br/>
       </div>
       
       <div className="mb-3">

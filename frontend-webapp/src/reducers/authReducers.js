@@ -1,4 +1,6 @@
 import { REGISTER_SUCCESS,REGISTER_FAIL } from "../constants/actiontype";
+
+
 const initialState = {
     isAuthenticated : false,
 }
@@ -18,3 +20,7 @@ export default function authReducers(state = initialState, action) {
         return state;
     }
   }
+
+
+
+

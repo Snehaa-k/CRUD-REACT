@@ -4,34 +4,132 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers  import CustomerSerializer,LoginSerializer
-from .models import Usermodelss
+from .serializers  import CustomerSerializer,ProfileSerializer
+from .models import Usermodelss,Userprofile
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import update_last_login
+from rest_framework import status, permissions
+from django.contrib.auth import get_user_model
+from rest_framework.parsers import MultiPartParser
 
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # Create your views here.
 class RegisterationApi(APIView):
     def post(self, request):
-        username = request.data.get('username')
-        email = request.data.get('email')
-        password1 = request.data.get('password1')
-        password2 = request.data.get('password2')
+        print(request.data)
+        serializer = CustomerSerializer(data=request.data)
 
-       
-        if not (username and email and password1 and password2):
-            return Response({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
-
-       
-        if password1 != password2:
-            return Response({"error": "Passwords do not match"}, status=status.HTTP_400_BAD_REQUEST)
-
-        print(password1)
-        user = Usermodelss(username=username, email=email, password=password1)
-        user.save()
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
 
-class LoginAPIView(TokenObtainPairView):
-    pass
-     
+
+class CustomTokenObtainPairView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        password = request.data.get('password')
+        print(f"emailfail{email}")
+        try:
+            user = Usermodelss.objects.get(email=email, password=password)
+        except ObjectDoesNotExist:
+            return Response({'error': 'User not found or invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        if user.is_superuser == False:
+
+        
+            refresh = RefreshToken.for_user(user)
+            update_last_login(None, user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'user': CustomerSerializer(user).data
+            })
+        else:
+            refresh = RefreshToken.for_user(user)
+            update_last_login(None, user)
+            return Response({
+                'refresh': str(refresh),
+                'access': str(refresh.access_token),
+                'admin': CustomerSerializer(user).data
+            })
+
     
+
+class ProfileDetail(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        try:
+            profile = Usermodelss.objects.get(id=request.user.id)
+            print(request.user)
+        except Usermodelss.DoesNotExist:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CustomerSerializer(profile)
+        return Response(serializer.data)
+
+
+class Profileview(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        print(request)
+        try:
+            profileimg = Userprofile.objects.get(user_id=request.user.id)
+            print(request.user)
+        except Userprofile.DoesNotExist:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ProfileSerializer(profileimg)
+        return Response(serializer.data)
+
+
+class ProfileImageUpload(APIView):
+    parser_classes = [MultiPartParser]
+
+    def post(self, request, *args, **kwargs):
+        user_id = kwargs.get('user_id')
+        print(user_id)
+        try:
+            user = Usermodelss.objects.get(id = user_id)
+        except Usermodelss.DoesNotExist:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        
+        image_file = request.FILES.get('image')
+
+        if not image_file:
+            return Response({'error': 'No file uploaded'}, status=status.HTTP_400_BAD_REQUEST)
+
+        
+        try:
+            userprofile = Userprofile.objects.get(user_id=user_id)
+            created = False
+        except Userprofile.DoesNotExist:
+            userprofile = None
+            created = True
+
+        
+        if userprofile:
+            userprofile.profile_image = image_file
+            userprofile.save()
+        
+        else:
+            userprofile = Userprofile.objects.create(user_id=user_id, profile_image=image_file)
+        
+
+        # serializer = ProfileSerializer(user, data={'profile_image': image_file}, partial=True)
+        # print(request.data)
+
+        # if serializer.is_valid():
+        #     print(serializer.validated_data)
+        #     serializer.save()
+        #     return Response(serializer.data)
+        
+        return Response({"message":"success"}, status=status.HTTP_201_CREATED)
