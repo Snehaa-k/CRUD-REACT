@@ -1,6 +1,7 @@
 import { ToastContainer, toast } from 'react-toastify';
 import React, { useState } from 'react'
 import { connect, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import './Signup.css'
 import { register } from '../../../actions/authActions';
 import { useNavigate } from 'react-router-dom';
@@ -13,11 +14,31 @@ const Signup = ({register}) => {
  const [password2, setpassword2] = useState('');
  const navigate = useNavigate()
  const dispatch = useDispatch()
-
+  
 
  
  const handlesubmit = async (e) => {
   e.preventDefault();
+  if (!username.trim()) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Username cannot be empty or contain spaces.',
+    });
+    setusername('');
+    
+    return; 
+  }
+  if(password!=password2){
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Passwords do not match!',
+    });
+    setpassword('');
+    setpassword2('');
+    return
+  }
   
   try{
     const res = await axios.post('http://127.0.0.1:8000/signup/',{username,email,password,password2});

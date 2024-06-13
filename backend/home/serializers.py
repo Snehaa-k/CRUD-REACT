@@ -21,4 +21,5 @@ class CustomerSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Userprofile
-        fields = [ 'profile_image']
+        fields = ['profile_image']
+   

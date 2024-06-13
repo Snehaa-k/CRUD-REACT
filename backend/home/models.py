@@ -19,3 +19,4 @@ class Userprofile(models.Model):
     user = models.ForeignKey(Usermodelss,on_delete=models.CASCADE)
     profile_image = models.ImageField(upload_to='media', blank=True, null=True)
     
+    

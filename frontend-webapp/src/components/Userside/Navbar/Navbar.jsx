@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../actions/authActions';
 import {  useNavigate } from 'react-router-dom';
@@ -7,6 +7,13 @@ const Navbar = () => {
    
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = localStorage.getItem("access_token")
+  useEffect(()=>{
+    const token = localStorage.getItem("access_token")
+    if (!token){
+      navigate('/')
+      return
+    }})
   const handlelogout = async (e) =>{
     e.preventDefault();
     const response = dispatch(logout())

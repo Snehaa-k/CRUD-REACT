@@ -53,6 +53,11 @@ export const logout = () => {
   return { type: 'LOGOUT' };
 };
 
+export const logoutadmin = () => {
+  localStorage.removeItem('admin_access_token');
+  localStorage.removeItem('admin_refresh_token');
+  return { type: 'LOGOUT' };
+};
 
 
 
