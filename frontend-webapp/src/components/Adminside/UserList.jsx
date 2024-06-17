@@ -14,9 +14,12 @@ import Swal from 'sweetalert2';
 const UserList = () => {
 const [users, setUsers] = useState([])
 const [currentUser, setCurrentUser] = useState({ id: null, username: '', email: '',password:'' });
+const [changestate,setChangeState] = useState(false)
+
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('admin_access_token');
+    
     if (!token) {
       
       navigate('/adlogin'); 
@@ -26,18 +29,20 @@ const [currentUser, setCurrentUser] = useState({ id: null, username: '', email: 
     
       
       
-      setUsers(response.data));
+    setUsers(response.data));
       
     
     
       
-  }, []);
+  }, [changestate]);
 
   // const addUser = () => {
   //   userService.createUser({ username, email }).then(() => {
       
   //   });
   // };
+ 
+
 
   const [showModal, setShowModal] = useState(false);
   
@@ -68,6 +73,7 @@ const [currentUser, setCurrentUser] = useState({ id: null, username: '', email: 
 
 
 const handleSaveUser = () => {
+ 
     if (currentUser.id) {
       apiService.updateUser(currentUser.id, currentUser).then(() => {
         Swal.fire({
@@ -78,11 +84,15 @@ const handleSaveUser = () => {
           timerProgressBar: true,
           showConfirmButton: false
         })
-      
+          
+        setChangeState(prevState =>!prevState)
         handleCloseModal();
+        
       });
+
     } else {
       apiService.createUser(currentUser).then(() => {
+    
         Swal.fire({
           icon: 'success',
           title: ' Successfully added',
@@ -91,13 +101,16 @@ const handleSaveUser = () => {
           timerProgressBar: true,
           showConfirmButton: false
         })
-      
+       
         handleCloseModal();
+        setChangeState(prevState =>!prevState)
       });
+    
     }
+   
   };
 
-  
+ 
   
   const handleDeleteUser = (id) => {
     apiService.deleteUser(id).then((response) => {
@@ -176,6 +189,7 @@ const handleSaveUser = () => {
                 placeholder="Enter name"
                 value={currentUser.username}
                 onChange={(e) => setCurrentUser({ ...currentUser, username: e.target.value })}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formEmail">
@@ -185,6 +199,7 @@ const handleSaveUser = () => {
                 placeholder="Enter email"
                 value={currentUser.email}
                 onChange={(e) => setCurrentUser({ ...currentUser, email: e.target.value })}
+                required
               />
             </Form.Group>
             {!currentUser.id &&
@@ -195,6 +210,7 @@ const handleSaveUser = () => {
                 placeholder="Enter Password"
                 value={currentUser.password}
                 onChange={(e) => setCurrentUser({ ...currentUser, password: e.target.value })}
+                required
               />
             </Form.Group>}
           </Form>

@@ -49,10 +49,11 @@ const Login = () => {
   }
 
   return (
+    <>
     <div>
      
      <div className="signup-container mt-10">
-    <h2>LOGIN</h2>
+    <h2 className='text-black'>LOGIN</h2>
     <br/>
     <form onSubmit={handleLogin} >
     
@@ -70,6 +71,33 @@ const Login = () => {
   </div>
   
     </div>
+    <style jsx>{`
+        .signup-container {
+          background-color: rgba(255, 255, 255, 0.5); 
+          padding: 60px 35px;
+          border-radius: 10px;
+          
+        }
+        .form-control {
+          background-color: transparent;
+          // background-color: rgba(255, 255, 255, 0.8);
+          border: 3px solid #ccc; /* Add border for better visibility */
+          padding: 10px;
+          color: black !important; /* Ensure text color is black */          outline: none; /* Remove default focus outline */
+        }
+     .form-control::placeholder {
+         color: rgba(0, 0, 0, 0.5); /* Placeholder text color */
+        }
+      .form-control:focus {
+          background-color: transparent; /* Keep input background transparent when focused */
+          color: black !important; /* Ensure text color is black */          outline: none; /* Remove default focus outline */
+          outline: none; /* Remove default focus outline */
+          border-color: #fff; /* Change border color on focus */
+        }
+        
+      `}</style>
+    </>
+    
   )
 }
 

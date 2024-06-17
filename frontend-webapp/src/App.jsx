@@ -7,9 +7,10 @@ import Userhome from './pages/Userside/Userhome'
 import Profile from './components/Userside/Userprofile/Profile'
 import Userlist from './pages/Adminside/Userlist'
 import Adminlogin from './pages/Adminside/Adminlogin'
-// import ProtectedRoute from './components/ProtectedRoute'
-
-
+import ProtectedRoute from './components/ProtectedRoute'
+import Adminprotected from './components/AdminRoute'
+import Userloginprotected from './components/Userloginprotected'
+import Userlistprotected from './components/Userlistprotected'
 
 
 
@@ -21,15 +22,28 @@ function App() {
     <>
       <Router>
       <Routes>
-        <Route path='/' element={<Userlogin />} />
-         <Route path='/signup' element={<Usersignup />} />
+        <Route path='/' element={<Userloginprotected><Userlogin /></Userloginprotected>} />
+        <Route path='/signup' element={<Usersignup />} />
         {/* <ProtectedRoute path="/home" element={<Userhome />} />  */}
-        <Route path = '/profile' element = {<Profile/>}/>
-        <Route path = '/home' element = {<Userhome/>}/>
+        <Route path = '/profile' element = {<ProtectedRoute><Profile/></ProtectedRoute>}/>
 
-        <Route path = '/adlogin' element = {<Adminlogin/>}/>
-        <Route path = '/userlist' element = {<Userlist/>}/>
+        <Route path = '/home' element = {<ProtectedRoute> <Userhome/></ProtectedRoute>}/>
 
+       {/* <Route path = '/adlogin' element = { <Adminlogin/>}/>   */}
+        <Route path = '/userlist' element = {<Userlistprotected><Userlist/></Userlistprotected>}/>
+        
+        <Route path="/adlogin" element={
+          <Adminprotected>
+           <Adminlogin/>
+          </Adminprotected>
+        } />
+
+        
+        {/* <Route path="/userlist" element={
+          <Adminprotected>
+            <Userlist />
+          </Adminprotected>
+        } /> */}
 
         
 

@@ -1,0 +1,12 @@
+.adminlog{
+    background-color: rgb(88, 78, 55);
+    background-image: url();
+    color: rgb(239, 226, 226);
+    padding: 1rem;
+    border-radius: 8px;
+    max-width: 500px;
+    max-height: 700px;
+    margin: auto;
+    margin-top: 7rem;
+    
+}

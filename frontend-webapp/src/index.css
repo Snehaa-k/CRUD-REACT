@@ -1,13 +1,23 @@
 
 @media (prefers-color-scheme: light) {
-  :root {
+  /* :root {
     color: #213547;
     background-color: #ffffff;
-  }
+  } */
   a:hover {
     color: #747bff;
   }
   button {
     background-color: #f9f9f9;
   }
+}
+body{
+  background-image: url('https://i.pinimg.com/564x/93/df/15/93df1560097eedb72743d4824ff91fe5.jpg');
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-position: center center; /* Centers the image */
+  width: 100%;
+  height: 100vh; /* Ensures the body takes the full viewport height */
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
 }

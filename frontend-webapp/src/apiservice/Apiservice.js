@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000'; // Update with your Django backend URL
+const API_URL = 'http://localhost:8000'; 
 
 const apiService = {
   getUsers: () => axios.get(`${API_URL}/userview/`),

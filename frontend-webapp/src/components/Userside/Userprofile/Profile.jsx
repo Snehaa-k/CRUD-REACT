@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import {useDispatch} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import './userprofile.css'
 
 
 
@@ -12,6 +13,7 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState(null);
   // const [profimage, setprofImage] = useState({});
+  const [changeimage,setChangeimage] = useState(false)
   
    
   const token = localStorage.getItem("access_token")
@@ -38,11 +40,14 @@ const Profile = () => {
     });
 
     if (response.data) {
-        console.log('hiiii',response.data);
+      alert("image uploaded sucussfully")
+      setChangeimage(!changeimage)
+
     } else {
         console.log('Faiiii');
     }
 } catch (error) {
+   alert("Error uploading image")
     console.error('Error uploading image:', error);
     console.log('Error uploading image');
 }
@@ -54,7 +59,7 @@ const Profile = () => {
     const fectchprofileimg = async ()=>{
       if(!token){
         console.log("error found");
-        setError("token not found")
+        setError("profile not found")
         return
       }
       try{
@@ -81,14 +86,14 @@ const Profile = () => {
       }
     }
     fectchprofileimg()
-  },[])
+  },[changeimage])
   
 
   useEffect (()=>{
     const fectchprofile = async ()=>{
       if(!token){
         console.log("error found");
-        setError("token not found")
+        setError("profile not found")
         return
       }
       try{
@@ -126,22 +131,22 @@ const Profile = () => {
   
   return (
     
-    <Container className="mt-5">
-      <Row className="justify-content-md-center">
+    <Container className="mt-5" >
+      <Row className="justify-content-md-center" width="100">
         <Col md="6">
-          <Card>
-            <Card.Header>Profile</Card.Header>
-            <Card.Body>
+          <Card className='profileclass'>
+            <Card.Header className='bg-dark text-white'>Profile</Card.Header>
+            <Card.Body className='bg-light'>
               <Form onSubmit={handlesubmit}>
                 <Form.Group  controlId="formFile" className="mb-3">
-                  <Form.Label>Upload Profile Picture</Form.Label>
-                  <Form.Control type="file"  onChange={(e)=>{setImage(e.target.files[0])}} accept='png' />
+                  <Form.Label className='text-dark '>Upload Profile Picture</Form.Label>
+                  <Form.Control type="file"  onChange={(e)=>{setImage(e.target.files[0])}} accept='png'  />
                 </Form.Group>
                 {image && (
                   <div className="text-center mb-3">
                     {
                       image ? (
-                    <img src={`http://127.0.0.1:8000${image}`}  alt="Profile" className="img-fluid rounded-circle" width="150" />
+                    <img src={`http://127.0.0.1:8000${image}`}  alt="Profile" className="img-fluid rounded-circle" width="120" />
 
                       ) : (
                         <div><p>no image</p></div>
@@ -150,11 +155,14 @@ const Profile = () => {
                     
                   </div>
                 )}
-                <h4>Name:  {profile.username}</h4>
-                <h4>Email: {profile.email}</h4>
-                
-                <Button variant="primary" type="submit">
+                <h5 className='text-dark'>Name:   {profile.username}</h5>
+                <h5 className='text-dark'>Email:  {profile.email}</h5>
+                <br/>
+                <Button variant="dark" type="submit" className='mx-3'>
                   Save Profile
+                </Button>
+                <Button onClick={()=>{navigate('/home')}} variant="dark" type="submit">
+                 Home
                 </Button>
               </Form>
             </Card.Body>

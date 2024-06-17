@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './adminss.css'
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -17,6 +18,7 @@ const AdminLogin = () => {
       
           localStorage.setItem("admin_access_token",res.data.access)
           localStorage.setItem("admin_refresh_token",res.data.refresh)
+          
           navigate('/userlist')
     }catch (error){
           alert(error)
@@ -29,10 +31,10 @@ const AdminLogin = () => {
 
   return (
     <Container className="mt-5">
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center ">
         <Col md="6">
-          <Card>
-            <Card.Header>Login</Card.Header>
+          <Card className='adminlog'>
+            <Card.Header className='text-b'>Login</Card.Header>
             <Card.Body>
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formEmail" className="mb-3">

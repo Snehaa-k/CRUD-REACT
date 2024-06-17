@@ -62,14 +62,14 @@ const Signup = ({register}) => {
   return (
     <>
      <div className="signup-container  pb-4 ">
-    <h2>SIGN UP</h2>
+    <h2 className='text-black'>SIGN UP</h2>
     <br/>
    
     <form  onSubmit={handlesubmit}>
    
     <div className="mb-3">
    
-        <input type="text" class="form-control" value={username}  onChange={(e)=>{setusername(e.target.value)}} placeholder= 'Enter Your Name' id="exampleInputEmail1" v-model="email" required/><br/>
+        <input type="text" class="form-control " value={username}  onChange={(e)=>{setusername(e.target.value)}} placeholder= 'Enter Your Name' id="exampleInputEmail1" v-model="email" required/><br/>
       </div>
       <div className="mb-3">
         <input type="email"  value={email} onChange={(e)=>{setemail(e.target.value)}} class="form-control"  placeholder= 'Enter Your Email' id="exampleInputtext" v-model="email" required/><br/>
@@ -85,6 +85,28 @@ const Signup = ({register}) => {
       <button type="submit" className="btn btn-outline-warning">SUBMIT</button>
     </form>
   </div>
+  <style jsx>{`
+       .signup-container {
+          background-color: rgba(255, 255, 255, 0.5); 
+          padding: 67px 35px;
+          border-radius: 10px;
+        }
+        .form-control {
+          background-color: transparent;
+          border: 3px solid #ccc; /* Add border for better visibility */
+          padding: 10px;
+          color: black !important; /* Ensure text color is black */     
+        }
+        .form-control::placeholder {
+          color: rgba(0, 0, 0, 0.5); /* Placeholder text color */
+        }
+        .form-control:focus {
+          background-color: transparent; /* Keep input background transparent when focused */
+          color: black !important; /* Ensure text color is black */          outline: none; /* Remove default focus outline */
+          border-color: #fff; /* Change border color on focus */
+        }
+        
+      `}</style>
    
     </>
   )
